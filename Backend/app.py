@@ -45,6 +45,7 @@ def obtener_conexion():
         port=3306
     )
 
+
 @app.route('/')
 def inicio():
     return "API Clientes - INFOTEL BUSINESS"
@@ -848,6 +849,73 @@ def eliminar_compra_cliente_api(id_compras):
     return jsonify(respuesta)
 
 
+@app.route('/api/productos', methods=['GET'])
+def obtener_productos():
+    try:
+        conn = obtener_conexion()  # Usamos la función que ya tienes para obtener la conexión
+        cursor = conn.cursor(dictionary=True)
+        
+        # Consulta SQL para obtener los productos
+        cursor.execute("SELECT id_catalogo, nombre, descripcion, precio, stock FROM catalogo WHERE stock > 0")
+        productos = cursor.fetchall()  # Obtener todos los productos
+        
+        conn.close()
+        
+        # Verificar si se encontraron productos y devolverlos como JSON
+        if productos:
+            return jsonify(productos), 200
+        else:
+            return jsonify({"mensaje": "No hay productos disponibles"}), 404
+    except Exception as e:
+        return jsonify({"mensaje": f"Error al obtener productos: {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+from flask import Flask, jsonify
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/infotel_db'  # Actualiza según tu configuración
+db = SQLAlchemy(app)
+
+# Modelo para la tabla 'catalogo'
+class Catalogo(db.Model):
+    __tablename__ = 'catalogo'
+    id_catalogo = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100))
+    descripcion = db.Column(db.Text)
+    precio = db.Column(db.Float)
+    stock = db.Column(db.Integer)
+    # otros campos de la tabla catalogo...
+
+# Modelo para la tabla 'catalogo_imagenes'
+class CatalogoImagenes(db.Model):
+    __tablename__ = 'catalogo_imagenes'
+    id_imagen = db.Column(db.Integer, primary_key=True)
+    id_catalogo = db.Column(db.Integer, db.ForeignKey('catalogo.id_catalogo'))
+    imagen_url = db.Column(db.String(255))
+    fecha_subida = db.Column(db.DateTime)
+
+@app.route("/api/productos", methods=["GET"])
+def obtener_productos():
+    productos = Catalogo.query.all()  # Consulta para obtener todos los productos
+    productos_info = []
+
+    for producto in productos:
+        # Obtener imagen asociada al producto desde la tabla 'catalogo_imagenes'
+        imagen = CatalogoImagenes.query.filter_by(id_catalogo=producto.id_catalogo).first()
+
+        producto_info = {
+            "id": producto.id_catalogo,
+            "nombre": producto.nombre,
+            "descripcion": producto.descripcion,
+            "precio": producto.precio,
+            "stock": producto.stock,
+            "imagen": imagen.imagen_url if imagen else "/static/img/default.png",  # Imagen predeterminada si no hay imagen
+        }
+        productos_info.append(producto_info)
+    
+    return jsonify(productos_info)
+
+if __name__ == "__main__":
+    app.run(debug=True)

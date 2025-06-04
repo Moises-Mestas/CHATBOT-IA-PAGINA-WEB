@@ -364,7 +364,7 @@
 
   // Constantes del chatbot
   // Constantes del chatbot
-  // Constantes del chatbot
+ // Constantes del chatbot
 const input = document.getElementById("chat-input");
 const sendBtn = document.getElementById("chat-send");
 const messages = document.getElementById("chat-messages");
@@ -399,11 +399,12 @@ function addMessage(text, sender) {
 function mensajeBienvenida() {
   esperandoSeleccionInicial = true;
   addMessage(
-    `¡Hola! Bienvenido a Infotel Business Perú. Por favor, selecciona una opción para comenzar:<br>
-    1. Promociones y descuentos<br>
-    2. Redes sociales y contacto<br>
-    3. Preguntas frecuentes<br>
-    4. Soporte técnico básico`,
+    `¡Hola! Bienvenido a Infotel Business Perú. ¿En qué puedo ayudarte hoy?<br>
+    1. Ver promociones y descuentos<br>
+    2. Conocer nuestras redes sociales y contacto<br>
+    3. Consultar preguntas frecuentes<br>
+    4. Soporte técnico básico<br>
+    5. Ver catálogo de productos`,
     "bot"
   );
 }
@@ -414,53 +415,13 @@ function contienePalabraGracias(texto) {
   return palabrasGracias.some((palabra) => texto.includes(palabra));
 }
 
-// Detectores de palabras clave
-function contienePalabraPromocion(texto) {
-  const palabrasPromo = ["promoción", "descuento", "oferta", "cupon", "rebaja"];
-  return palabrasPromo.some((palabra) => texto.includes(palabra));
-}
-
-function contienePalabraRedes(texto) {
-  const palabrasRedes = [
-    "redes",
-    "facebook",
-    "instagram",
-    "whatsapp",
-    "contacto",
-    "twitter",
-    "ubicación",
-    "dirección",
+// Detectores de palabras clave para el menú
+function contienePalabraMenu(texto) {
+  const palabrasMenu = [
+    "menu", "opciones", "ver opciones", "catalogo", "qué hacer", "qué puedo hacer", "mostrar opciones",
+    "mostrar menú", "quiero opciones", "ver catálogo", "opciones disponibles", "mostrar catálogo"
   ];
-  return palabrasRedes.some((palabra) => texto.includes(palabra));
-}
-
-function contienePalabraSoporte(texto) {
-  const palabrasSoporte = [
-    "soporte",
-    "ayuda",
-    "duda",
-    "problema",
-    "consulta",
-    "información",
-    "contactar",
-  ];
-  return palabrasSoporte.some((palabra) => texto.includes(palabra));
-}
-
-function contienePalabraFAQ(texto) {
-  const palabrasFAQ = [
-    "importar",
-    "exportar",
-    "entrega",
-    "tiempo",
-    "costo",
-    "precio",
-    "envio",
-    "pregunta frecuente",
-    "faq",
-    "preguntas frecuentes",
-  ];
-  return palabrasFAQ.some((palabra) => texto.includes(palabra));
+  return palabrasMenu.some((palabra) => texto.includes(palabra));
 }
 
 // Función para manejar la respuesta del usuario
@@ -472,26 +433,15 @@ async function getResponse(message) {
     return "¡Gracias a ti por contactarnos! 😊 ¿En qué más puedo ayudarte?";
   }
 
-  // Si está pidiendo las opciones iniciales nuevamente
-  if (
-    lower.includes("opciones") || 
-    lower.includes("tus opciones") || 
-    lower.includes("mostrar opciones") || 
-    lower.includes("ver opciones") || 
-    lower.includes("qué hacer") || 
-    lower.includes("qué puedo hacer") || 
-    lower.includes("ver opciones disponibles") || 
-    lower.includes("mostrar menú") || 
-    lower.includes("quiero opciones") || 
-    lower.includes("menu") || 
-    lower.includes("mis opciones")
-  ) {
+  // Si está pidiendo las opciones iniciales nuevamente o menciona "menú" o "catálogo"
+  if (contienePalabraMenu(lower)) {
     esperandoSeleccionInicial = true; // Restablecemos la espera para las opciones
-    return `¡Hola! Bienvenido a Infotel Business Perú. Por favor, selecciona una opción para comenzar:<br>
-    1. Promociones y descuentos<br>
-    2. Redes sociales y contacto<br>
-    3. Preguntas frecuentes<br>
-    4. Soporte técnico básico`;
+    return `¡Hola! Bienvenido a Infotel Business Perú. ¿En qué puedo ayudarte hoy?<br>
+    1. Ver promociones y descuentos<br>
+    2. Conocer nuestras redes sociales y contacto<br>
+    3. Consultar preguntas frecuentes<br>
+    4. Soporte técnico básico<br>
+    5. Ver catálogo de productos`;
   }
 
   // Si está esperando la selección inicial
@@ -528,9 +478,29 @@ async function getResponse(message) {
       3. Políticas de devolución.<br>
       4. Horarios de atención.<br>
       Por favor responde con el número de la opción que te interesa.`;
+    } else if (lower === "5") {
+      estadoActual = "catalogo";
+      const productos = await obtenerProductos();  // Llamamos a la API para obtener productos
+      let mensaje = "Estos son los productos disponibles:<br>";
+      
+      // Muestra los productos obtenidos con su imagen
+      productos.forEach((producto, index) => {
+        mensaje += `
+          <div style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
+            <img src="${producto.imagen}" alt="${producto.nombre}" style="width: 100px; height: auto; float: left; margin-right: 10px;">
+            <strong>${producto.nombre}</strong><br>
+            Precio: S/ ${producto.precio}<br>
+            Stock: ${producto.stock} unidades<br>
+            <button class="btn btn-info" onclick="verDetalles(${producto.id})">Ver detalles</button>
+          </div>
+        `;
+      });
+      
+      mensaje += "Por favor responde con el número del producto que te interesa.";
+      return mensaje;
     } else {
       esperandoSeleccionInicial = true; // No es opción válida, volvemos a preguntar
-      return "Por favor selecciona una opción válida: 1, 2, 3 o 4.";
+      return "Por favor selecciona una opción válida: 1, 2, 3, 4 o 5.";
     }
   }
 
@@ -549,99 +519,34 @@ async function getResponse(message) {
     }
   }
 
-  if (estadoActual === "redes") {
-    estadoActual = null;
-    if (lower === "1") {
-      return `Síguenos en Facebook: <a href="https://www.facebook.com/infotelperu" target="_blank">Infotel Perú</a>`;
-    } else if (lower === "2") {
-      return `Síguenos en Instagram: <a href="https://www.instagram.com/infotelperu" target="_blank">infotelperu</a>`;
-    } else if (lower === "3") {
-      return `Contáctanos por WhatsApp: <a href="https://wa.me/51981141413" target="_blank">+51 981141413</a>`;
-    } else if (lower === "4") {
-      return `Nuestra dirección es:<br>Pasaje Ayaviri Mz. Ñ Lt 18F, Urb. San Francisco, Juliaca, Perú.`;
-    } else {
-      estadoActual = "redes";
-      return "Por favor selecciona una opción válida: 1, 2, 3 o 4.";
+  // Si no coincide con ninguna de las opciones predefinidas, llamamos a la IA
+  return await getIAResponse(message);
+}
+
+// Función para obtener productos desde la base de datos
+async function obtenerProductos() {
+  try {
+    const response = await fetch('http://127.0.0.1:5000/api/productos');
+    if (!response.ok) {
+      throw new Error('No se pudieron obtener los productos');
     }
+    const productos = await response.json();
+    return productos;
+  } catch (error) {
+    console.error('Error obteniendo productos:', error);
+    return [];
   }
+}
 
-  if (estadoActual === "faq") {
-    estadoActual = null;
-    if (lower === "1") {
-      return "Puedes importar productos contactando a nuestro equipo de ventas, te ayudamos en todo el proceso.";
-    } else if (lower === "2") {
-      return "Los envíos suelen tardar entre 5 y 10 días hábiles, dependiendo del destino.";
-    } else if (lower === "3") {
-      return "Los costos asociados varían según el tipo de producto y destino, consulta con nosotros para detalles específicos.";
-    } else {
-      estadoActual = "faq";
-      return "Por favor selecciona una opción válida: 1, 2 o 3.";
-    }
-  }
-
-  if (estadoActual === "soporte") {
-    estadoActual = null;
-    if (lower === "1") {
-      return "Información sobre productos y servicios: Maquinaria textil, repuestos, accesorios, artesanías, prendas, etc.";
-    } else if (lower === "2") {
-      return "Estado de tus pedidos: Puedes consultar el estado y fechas estimadas.";
-    } else if (lower === "3") {
-      return "Políticas de devolución: Detalles sobre cómo hacer una devolución o cambio.";
-    } else if (lower === "4") {
-      return "Horarios de atención: Nuestro horario es de lunes a viernes, de 9 AM a 6 PM.";
-    } else {
-      estadoActual = "soporte";
-      return "Por favor selecciona una opción válida del 1 al 4.";
-    }
-  }
-
-  // Respuestas por palabras clave sin estados
-  if (contienePalabraPromocion(lower)) {
-    estadoActual = "promocion";
-    return `Actualmente tenemos las siguientes promociones vigentes:<br>
-      1. 15% de descuento en maquinaria textil seleccionada.<br>
-      2. Envío gratuito para pedidos mayores a S/ 500.<br>
-      3. Cupones especiales para clientes recurrentes.<br>
-      Por favor responde con el número de la opción que te interesa.`;
-  }
-
-  if (contienePalabraRedes(lower)) {
-    estadoActual = "redes";
-    return `Puedes seguirnos y contactarnos en nuestras redes sociales:<br>
-      1. Facebook<br>
-      2. Instagram<br>
-      3. WhatsApp<br>
-      4. Dirección de la empresa<br>
-      Por favor responde con el número de la opción que te interesa.`;
-  }
-
-  if (contienePalabraSoporte(lower)) {
-    estadoActual = "soporte";
-    return `¡Hola! Soy tu asistente virtual para ayudarte con tus consultas.<br>
-      Puedes preguntarme sobre:<br>
-      1. Información sobre nuestros productos y servicios.<br>
-      2. Estado de tus pedidos.<br>
-      3. Políticas de devolución.<br>
-      4. Horarios de atención.<br>
-      Por favor responde con el número de la opción que te interesa.`;
-  }
-
-  if (contienePalabraFAQ(lower)) {
-    estadoActual = "faq";
-    return `Preguntas frecuentes:<br>
-      1. ¿Cómo puedo importar o exportar?<br>
-      2. ¿Cuánto tardan los envíos?<br>
-      3. ¿Cuáles son los costos asociados?<br>
-      Por favor responde con el número de la opción que te interesa.`;
-  }
-
-  // Si no es ninguna opción, llamar IA
+// ** IA para preguntas no predefinidas **
+// Llamada a la IA cuando no se reconoce ninguna opción
+async function getIAResponse(message) {
   try {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization:
-          "Bearer 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",
+          "Bearer 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",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

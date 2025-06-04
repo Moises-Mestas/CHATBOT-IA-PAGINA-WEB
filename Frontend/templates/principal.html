@@ -657,28 +657,30 @@ function mostrarDetallesProducto(productoId) {
   <script src="static/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="static/vendor/swiper/swiper-bundle.min.js"></script>
 
+
+
+
+  
   <script src="static/js/main.js"></script>
+    <div id="chatbot-btn" onclick="toggleChatbot()">
+      <i class="bi bi-chat"></i>
+    </div>
 
+    <div id="chatbot-window" style="display: none;">
+      <div id="chat-container">
+        <div id="chat-header">
+          Chatbot Infotel Business Perú
+          <button id="chatbot-close" onclick="toggleChatbot()">X</button>
+        </div>
+        <div id="chat-messages"></div>
 
-
-  <div id="chatbot-btn" onclick="toggleChatbot()">
-    <i class="bi bi-chat"></i> 
-  </div>
-
-  <div id="chatbot-window" style="display: none;">
-    <div id="chat-container">
-      <div id="chat-header">
-        Chatbot Infotel Bysiness Perú
-        <button id="chatbot-close" onclick="toggleChatbot()">X</button>
-      </div>
-      <div id="chat-messages"></div>
-
-      <div id="chat-input-container">
-        <input id="chat-input" type="text" placeholder="Escribe un mensaje..." autocomplete="off" />
-        <button id="chat-send">Enviar</button>
+        <div id="chat-input-container">
+          <input id="chat-input" type="text" placeholder="Escribe un mensaje..." autocomplete="off" />
+          <button id="chat-send">Enviar</button>
+        </div>
       </div>
     </div>
-  </div>
+
 
   <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="static/vendor/aos/aos.js"></script>
