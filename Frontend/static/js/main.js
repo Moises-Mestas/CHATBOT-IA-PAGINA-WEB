@@ -433,9 +433,10 @@ async function getResponse(message) {
   const lower = message.toLowerCase().trim();
 
   // Si el usuario agradece
-  if (contienePalabraGracias(lower)) {
-    return "¡Gracias a ti por contactarnos! 😊 ¿En qué más puedo ayudarte?";
-  }
+if (contienePalabraGracias(lower)) {
+  return `¡Gracias a ti por contactarnos! 😊 ¿En qué más puedo ayudarte?😊 Si necesitas más información, puedes contactarte con un Encargado <a href="https://api.whatsapp.com/send/?phone=51981141413&text&type=phone_number&app_absent=0" target="_blank">aquí</a> 😉`;
+}
+
 
   // Si está pidiendo las opciones iniciales nuevamente o menciona "menú" o "catálogo"
   if (contienePalabraMenu(lower)) {
@@ -539,6 +540,18 @@ async function getResponse(message) {
       return "Has seleccionado: Cupones especiales para clientes recurrentes.";
     } else {
       estadoActual = "promocion";
+      return "Por favor selecciona una opción válida: 1, 2 o 3.";
+    }
+  }
+ if (estadoActual === "faq") {
+    if (lower === "1") {
+      return `Pregunta: ¿Cómo puedo importar o exportar?<br>Respuesta: Puedes importar productos contactando a nuestro equipo de ventas, te ayudamos en todo el proceso. 😊<br><br>¿Puedo ayudarte con algo más? 🤔`;
+    } else if (lower === "2") {
+      return `Pregunta: ¿Cuánto tardan los envíos?<br>Respuesta: Los envíos suelen tardar entre 5 y 10 días hábiles, dependiendo del destino. 📦✈️<br><br>¿Te gustaría saber algo más? 😃`;
+    } else if (lower === "3") {
+      return `Pregunta: ¿Cuáles son los costos asociados?<br>Respuesta: Los costos asociados varían según el tipo de producto y destino, consulta con nosotros para detalles específicos. 💸<br><br>Si tienes más dudas, ¡estoy aquí para ayudarte! 😄`;
+    } else {
+      estadoActual = "faq";
       return "Por favor selecciona una opción válida: 1, 2 o 3.";
     }
   }
