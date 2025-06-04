@@ -19,6 +19,7 @@ import packingList
 import pedidos
 import productos
 import proveedores
+import carrito_compra
 import imagenes
 import seguimientoPedidos
 import tipos
@@ -97,6 +98,42 @@ def login_cliente():
         return jsonify(cliente), 200
     else:
         return jsonify({"mensaje": "Credenciales inválidas"}), 401
+#===============carrito_compra================#
+@app.route('/carrito', methods=['POST'])
+def agregar_item():
+    data = request.json
+    respuesta, codigo = carrito_compra.agregar_item_carrito(
+        data['id_catalogo'],
+        data['cantidad_producto'],
+        data['precio_unitario']
+    )
+    return jsonify(respuesta), codigo
+
+@app.route('/carrito', methods=['GET'])
+def listar_items():
+    resultado = carrito_compra.listar_carrito()
+    return jsonify(resultado)
+
+@app.route('/carrito/<int:id_carrito>', methods=['GET'])
+def obtener_item(id_carrito):
+    resultado, codigo = carrito_compra.obtener_item_carrito(id_carrito)
+    return jsonify(resultado), codigo
+
+@app.route('/carrito/<int:id_carrito>', methods=['PUT'])
+def actualizar_item(id_carrito):
+    data = request.json
+    respuesta, codigo = carrito_compra.actualizar_item_carrito(
+        id_carrito,
+        data['id_catalogo'],
+        data['cantidad_producto'],
+        data['precio_unitario']
+    )
+    return jsonify(respuesta), codigo
+
+@app.route('/carrito/<int:id_carrito>', methods=['DELETE'])
+def eliminar_item(id_carrito):
+    respuesta, codigo = carrito_compra.eliminar_item_carrito(id_carrito)
+    return jsonify(respuesta), codigo
 
 #============cliente============#
 @app.route('/clientes', methods=['POST'])

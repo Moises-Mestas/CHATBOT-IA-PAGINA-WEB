@@ -3,70 +3,156 @@
 
 {% block contenido %}
 <main class="container mb-5">
+  <!-- Ícono de carrito fijo con contador -->
+  <div id="carrito-icono" style="position: fixed; top: 150px; right: 20px; z-index: 9999;">
+    <a href="/carrito" class="btn btn-outline-dark position-relative">
+      🛒
+      <span id="contador-carrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        0
+      </span>
+    </a>
+  </div>
+
   <!-- SECCIÓN DE FILTROS -->
-<div id="filtro-container" class="container mt-5 mb-5 p-4 bg-light rounded border border-dark shadow">
+  <div id="filtro-container" class="container mt-5 mb-5 p-4 bg-light rounded border border-dark shadow">
     <h3 class="text-center mb-4 text-primary">Filtrar Productos</h3>
     <div class="d-flex flex-column align-items-center gap-4">
-        <!-- Filtro por Tipo -->
-        <div class="w-100 text-center">
-            <h5>Seleccionar Tipo:</h5>
-            <div class="btn-group w-100">
-                <button class="btn btn-primary btn-lg filtro-btn active" data-tipo="Todos">Todos</button>
-                <button class="btn btn-success btn-lg filtro-btn" data-tipo="Textil">Textil</button>
-                <button class="btn btn-warning btn-lg filtro-btn" data-tipo="Accesorio">Accesorios</button>
+      <!-- Filtro por Tipo -->
+      <div class="w-100 text-center">
+        <h5>Seleccionar Tipo:</h5>
+        <div class="btn-group w-100">
+          <button class="btn btn-primary btn-lg filtro-btn active" data-tipo="Todos">Todos</button>
+          <button class="btn btn-success btn-lg filtro-btn" data-tipo="Textil">Textil</button>
+          <button class="btn btn-warning btn-lg filtro-btn" data-tipo="Accesorio">Accesorios</button>
+        </div>
+      </div>
+
+      <!-- Filtro por Nombre -->
+      <div class="w-50 text-center">
+        <h5>Buscar por Nombre:</h5>
+        <input type="text" id="nombreFiltro" class="form-control form-control-lg text-center" placeholder="Escribe aquí">
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5">
+    <div class="row" id="productos-container">
+      <!-- Productos cargados dinámicamente -->
+    </div>
+  </div>
+
+  <!-- Modal para detalles del producto -->
+  <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 id="producto-nombre-modal" class="modal-title"></h5>
+          <button type="button" class="btn-close text-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6 text-center">
+              <div id="carouselProducto" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner" id="modalImagenContainer"></div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducto" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselProducto" data-bs-slide="next">
+                  <span class="carousel-control-next-icon"></span>
+                </button>
+              </div>
             </div>
-        </div>
-
-        <!-- Filtro por Nombre -->
-        <div class="w-50 text-center">
-            <h5>Buscar por Nombre:</h5>
-            <input type="text" id="nombreFiltro" class="form-control form-control-lg text-center" placeholder="Escribe aquí">
-        </div>
-    </div>
-</div>
-
-    <div class="container mt-5">
-        <div class="row" id="productos-container">
-            <!-- Productos cargados dinámicamente -->
-        </div>
-    </div>
-
-    <!-- Modal para detalles del producto -->
-    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 id="producto-nombre-modal" class="modal-title"></h5>
-                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 text-center">
-                            <div id="carouselProducto" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner" id="modalImagenContainer"></div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducto" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon"></span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselProducto" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon"></span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="border rounded p-3 bg-light">
-                                <p><strong>Material:</strong> <span id="producto-material"></span></p>
-                                <p><strong>Stock:</strong> <span id="producto-stock"></span> unidades</p>
-                                <p><strong>Color:</strong> <span id="producto-color"></span></p>
-                                <p class="fs-5 text-danger"><strong>Precio:</strong><span id="producto-precio-modal"></span></p>
-                            </div>
-                            <button class="btn btn-success w-100 mt-3">Añadir al carrito</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-6">
+              <div class="border rounded p-3 bg-light">
+                <p><strong>Material:</strong> <span id="producto-material"></span></p>
+                <p><strong>Stock:</strong> <span id="producto-stock"></span> unidades</p>
+                <p><strong>Color:</strong> <span id="producto-color"></span></p>
+                <p class="fs-5 text-danger"><strong>Precio:</strong> PEN <span id="producto-precio-modal"></span></p>
+              </div>
+              <button id="btn-anadir-carrito" class="btn btn-success w-100 mt-3">Añadir al carrito</button>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </main>
 
+<!-- Tu JS original -->
 <script src="{{ url_for('static', filename='js/catalogo.js') }}"></script>
+
+<!-- Script adicional para carrito -->
+<script>
+  let productoActual = null;
+
+  function mostrarDetalles(idCatalogo) {
+    fetch(`http://127.0.0.1:5000/catalogo/${idCatalogo}`)
+      .then(response => response.json())
+      .then(producto => {
+        productoActual = producto;
+
+        const imagenContainer = document.getElementById("modalImagenContainer");
+        imagenContainer.innerHTML = "";
+
+        if (producto.imagenes && producto.imagenes.length > 0) {
+          producto.imagenes.forEach((imgUrl, index) => {
+            imagenContainer.innerHTML += `
+              <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                <img src="${imgUrl}" class="d-block w-100" alt="Imagen del producto">
+              </div>`;
+          });
+        } else {
+          imagenContainer.innerHTML = `
+            <div class="carousel-item active">
+              <img src="${producto.imagen_url}" class="d-block w-100" alt="Producto">
+            </div>`;
+        }
+
+        document.getElementById("producto-nombre-modal").innerText = producto.nombre;
+        document.getElementById("producto-material").innerText = producto.material;
+        document.getElementById("producto-stock").innerText = producto.stock;
+        document.getElementById("producto-color").innerText = producto.color;
+        document.getElementById("producto-precio-modal").innerText = producto.precio;
+      });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("btn-anadir-carrito").addEventListener("click", () => {
+      if (!productoActual) return;
+
+      fetch("http://127.0.0.1:5000/carrito", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id_catalogo: productoActual.id_catalogo,
+          cantidad_producto: 1,
+          precio_unitario: productoActual.precio
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.mensaje) {
+          actualizarContadorCarrito();
+          alert("Producto añadido al carrito con éxito.");
+        } else {
+          alert("Error al añadir al carrito.");
+        }
+      });
+    });
+
+    actualizarContadorCarrito();
+  });
+
+  function actualizarContadorCarrito() {
+  fetch("http://127.0.0.1:5000/carrito")
+    .then((response) => response.json())
+    .then((data) => {
+      const contador = document.getElementById("contador-carrito");
+      const total = data.reduce((sum, item) => sum + item.cantidad_producto, 0);
+      contador.innerText = total;
+    })
+    .catch((error) => console.error("Error al obtener el carrito:", error));
+}
+
+</script>
 {% endblock %}
