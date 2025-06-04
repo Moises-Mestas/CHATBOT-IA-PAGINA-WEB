@@ -1,0 +1,40 @@
+#carouselProductos {
+    width: 80%;
+    margin: auto;
+}
+
+#carouselProductos .carousel-inner .row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;  
+}
+
+#carouselProductos .carousel-item {
+    padding: 10px;
+}
+
+#carouselProductos .card {
+    width: 100%;
+    max-width: 230px; 
+    margin: auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+#carouselProductos img {
+    max-height: 180px; 
+    width: auto;
+    object-fit: contain;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.4); 
+    padding: 4px;
+    font-size: 12px; 
+    color: white;
+    border-radius: 5px;
+}
+
+.ver-mas-btn {
+    padding: 4px 8px;
+    font-size: 12px; 
+}
