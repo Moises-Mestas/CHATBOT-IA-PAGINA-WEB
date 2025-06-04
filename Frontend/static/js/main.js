@@ -555,7 +555,28 @@ if (contienePalabraGracias(lower)) {
       return "Por favor selecciona una opción válida: 1, 2 o 3.";
     }
   }
-
+  if (estadoActual === "soporte") {
+    if (lower === "1") {
+      // Información sobre productos y servicios
+      return `Información sobre productos y servicios:<br>
+      Ofrecemos maquinaria textil, repuestos, accesorios, y productos artesanales. Si tienes alguna consulta específica, no dudes en preguntarnos. 😊<br><br>¿Te puedo ayudar con algo más? 🤔`;
+    } else if (lower === "2") {
+      // Estado de tus pedidos
+      return `Estado de tus pedidos:<br>
+      Para consultar el estado de tu pedido, por favor ingresa tu número de pedido y estaremos encantados de informarte. 📦🚚<br><br>¿Hay algo más en lo que pueda ayudarte? 😄`;
+    } else if (lower === "3") {
+      // Políticas de devolución
+      return `Políticas de devolución:<br>
+      Aceptamos devoluciones dentro de los 30 días posteriores a la compra, siempre y cuando el producto no haya sido utilizado y esté en su empaque original. Si tienes alguna pregunta, ¡aquí estamos para ayudarte! 💼🔄<br><br>¿Te gustaría saber más? 😃`;
+    } else if (lower === "4") {
+      // Horarios de atención
+      return `Horarios de atención:<br>
+      Nuestro horario de atención es de lunes a viernes, de 9 AM a 6 PM. ¡Te esperamos! ⏰📅<br><br>Si necesitas algo más, ¡estoy aquí para ayudarte! 😄`;
+    } else {
+      estadoActual = "soporte";
+      return "Por favor selecciona una opción válida: 1, 2, 3 o 4.";
+    }
+  }
   // Si no coincide con ninguna de las opciones predefinidas, llamamos a la IA
   return await getIAResponse(message);
 }
