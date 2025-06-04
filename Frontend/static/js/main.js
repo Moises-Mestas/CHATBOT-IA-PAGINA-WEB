@@ -486,6 +486,8 @@ async function getResponse(message) {
       estadoActual = "catalogo";
       const productos = await obtenerProductos();  // Llamamos a la API para obtener productos
       let mensaje = "Estos son los productos disponibles:<br>";
+      
+      // Muestra los productos obtenidos con la imagen predeterminada
       productos.forEach((producto, index) => {
         mensaje += `
           <div class="product-container">
@@ -494,11 +496,13 @@ async function getResponse(message) {
               <strong>${producto.nombre}</strong><br>
               Precio: S/ ${producto.precio}<br>
               Stock: ${producto.stock} unidades<br>
+              <!-- Enlace para ver detalles -->
               <a href="http://localhost:5001/catalogo" class="btn btn-info">Ver detalles</a>
             </div>
           </div>
         `;
       });
+
       mensaje += "Por favor responde con el número del producto que te interesa.";
       return mensaje;
     } else {
@@ -506,30 +510,24 @@ async function getResponse(message) {
       return "Por favor selecciona una opción válida: 1, 2, 3, 4 o 5.";
     }
   }
-
-  // Respuestas para la opción 3: Consultar preguntas frecuentes
-  if (estadoActual === "faq") {
+  if (estadoActual === "redes") {
     if (lower === "1") {
-      return `La respuesta a la pregunta "¿Cómo puedo importar o exportar?" es:<br> 
-        Para importar o exportar productos, por favor contacte con nuestro equipo de ventas para que te asesoren en el proceso. 😊<br>
-        ¡Un gusto ayudarte! ¿Tienes más dudas?<br>
-        <br>1. Ver promociones y descuentos<br>2. Conocer nuestras redes sociales y contacto<br>3. Consultar preguntas frecuentes<br>4. Soporte técnico básico<br>5. Ver catálogo de productos`;
+      // Redirige a Facebook
+      return `Te redirigiremos a Facebook: <a href="https://www.facebook.com/groups/820964629186282/user/61575088954107/" target="_blank">Ir a Facebook</a>`;
     } else if (lower === "2") {
-      return `La respuesta a la pregunta "¿Cuánto tardan los envíos?" es:<br>
-        El tiempo de entrega depende de la ubicación, pero generalmente los envíos tardan entre 5 y 10 días hábiles.<br>
-        ¡Un gusto ayudarte! ¿Tienes más dudas?<br>
-        <br>1. Ver promociones y descuentos<br>2. Conocer nuestras redes sociales y contacto<br>3. Consultar preguntas frecuentes<br>4. Soporte técnico básico<br>5. Ver catálogo de productos`;
+      // Redirige a Instagram
+      return `Te redirigiremos a Instagram: <a href="https://www.instagram.com/infotelbusiness.sac/" target="_blank">Ir a Instagram</a>`;
     } else if (lower === "3") {
-      return `La respuesta a la pregunta "¿Cuáles son los costos asociados?" es:<br>
-        Los costos asociados a nuestros productos varían dependiendo del tipo de producto y el destino del envío. Para más detalles, consulta con nuestro equipo de ventas.<br>
-        ¡Un gusto ayudarte! ¿Tienes más dudas?<br>
-        <br>1. Ver promociones y descuentos<br>2. Conocer nuestras redes sociales y contacto<br>3. Consultar preguntas frecuentes<br>4. Soporte técnico básico<br>5. Ver catálogo de productos`;
+      // Redirige a WhatsApp
+      return `Te redirigiremos a WhatsApp: <a href="https://api.whatsapp.com/send/?phone=51981141413&text&type=phone_number&app_absent=0" target="_blank">Enviar WhatsApp</a>`;
+    } else if (lower === "4") {
+      // Redirige a la dirección en Google Maps
+      return `Te redirigiremos a la dirección de la empresa: <a href="https://www.google.com/maps?ll=-15.483033,-70.134012&z=13&t=m&hl=es-419&gl=PE&mapclient=embed&cid=944664780073154821" target="_blank">Ver en Google Maps</a>`;
     } else {
-      estadoActual = "faq";
-      return "Por favor selecciona una opción válida: 1, 2 o 3.";
+      estadoActual = "redes";
+      return "Por favor selecciona una opción válida: 1, 2, 3 o 4.";
     }
   }
-
   // Aquí los estados para las subopciones como antes
   if (estadoActual === "promocion") {
     estadoActual = null;
