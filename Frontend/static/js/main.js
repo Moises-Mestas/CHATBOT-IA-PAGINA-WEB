@@ -366,8 +366,6 @@
   // Constantes del chatbot
  // Constantes del chatbot
 // Constantes del chatbot
-// Constantes del chatbot
-// Constantes del chatbot
 const input = document.getElementById("chat-input");
 const sendBtn = document.getElementById("chat-send");
 const messages = document.getElementById("chat-messages");
@@ -428,15 +426,13 @@ function contienePalabraMenu(texto) {
 }
 
 // Función para manejar la respuesta del usuario
-// Función para manejar la respuesta del usuario
 async function getResponse(message) {
   const lower = message.toLowerCase().trim();
 
   // Si el usuario agradece
-if (contienePalabraGracias(lower)) {
-  return `¡Gracias a ti por contactarnos! 😊 ¿En qué más puedo ayudarte?😊 Si necesitas más información, puedes contactarte con un Encargado <a href="https://api.whatsapp.com/send/?phone=51981141413&text&type=phone_number&app_absent=0" target="_blank">aquí</a> 😉`;
-}
-
+  if (contienePalabraGracias(lower)) {
+    return `¡Gracias a ti por contactarnos! 😊 ¿En qué más puedo ayudarte? Si necesitas más información, puedes contactarte con un Encargado <a href="https://api.whatsapp.com/send/?phone=51981141413&text&type=phone_number&app_absent=0" target="_blank">aquí</a> 😉`;
+  }
 
   // Si está pidiendo las opciones iniciales nuevamente o menciona "menú" o "catálogo"
   if (contienePalabraMenu(lower)) {
@@ -487,7 +483,7 @@ if (contienePalabraGracias(lower)) {
       estadoActual = "catalogo";
       const productos = await obtenerProductos();  // Llamamos a la API para obtener productos
       let mensaje = "Estos son los productos disponibles:<br>";
-      
+
       // Muestra los productos obtenidos con la imagen predeterminada
       productos.forEach((producto, index) => {
         mensaje += `
@@ -511,24 +507,22 @@ if (contienePalabraGracias(lower)) {
       return "Por favor selecciona una opción válida: 1, 2, 3, 4 o 5.";
     }
   }
+
   if (estadoActual === "redes") {
     if (lower === "1") {
-      // Redirige a Facebook
       return `Te redirigiremos a Facebook: <a href="https://www.facebook.com/groups/820964629186282/user/61575088954107/" target="_blank">Ir a Facebook</a>`;
     } else if (lower === "2") {
-      // Redirige a Instagram
-      return `Te redirigiremos a Instagram: <a href="https://www.instagram.com/infotelbusiness.sac/" target="_blank">Ir a Instagram</a>`;
+      return `Te redirigiremos a Instagram: <a href="https://www.instagram.com/infotelbusiness.sac/" target="_blank">Instagram</a>`;
     } else if (lower === "3") {
-      // Redirige a WhatsApp
       return `Te redirigiremos a WhatsApp: <a href="https://api.whatsapp.com/send/?phone=51981141413&text&type=phone_number&app_absent=0" target="_blank">Enviar WhatsApp</a>`;
     } else if (lower === "4") {
-      // Redirige a la dirección en Google Maps
       return `Te redirigiremos a la dirección de la empresa: <a href="https://www.google.com/maps?ll=-15.483033,-70.134012&z=13&t=m&hl=es-419&gl=PE&mapclient=embed&cid=944664780073154821" target="_blank">Ver en Google Maps</a>`;
     } else {
       estadoActual = "redes";
       return "Por favor selecciona una opción válida: 1, 2, 3 o 4.";
     }
   }
+
   // Aquí los estados para las subopciones como antes
   if (estadoActual === "promocion") {
     estadoActual = null;
@@ -543,7 +537,8 @@ if (contienePalabraGracias(lower)) {
       return "Por favor selecciona una opción válida: 1, 2 o 3.";
     }
   }
- if (estadoActual === "faq") {
+
+  if (estadoActual === "faq") {
     if (lower === "1") {
       return `Pregunta: ¿Cómo puedo importar o exportar?<br>Respuesta: Puedes importar productos contactando a nuestro equipo de ventas, te ayudamos en todo el proceso. 😊<br><br>¿Puedo ayudarte con algo más? 🤔`;
     } else if (lower === "2") {
@@ -555,21 +550,18 @@ if (contienePalabraGracias(lower)) {
       return "Por favor selecciona una opción válida: 1, 2 o 3.";
     }
   }
+
   if (estadoActual === "soporte") {
     if (lower === "1") {
-      // Información sobre productos y servicios
       return `Información sobre productos y servicios:<br>
       Ofrecemos maquinaria textil, repuestos, accesorios, y productos artesanales. Si tienes alguna consulta específica, no dudes en preguntarnos. 😊<br><br>¿Te puedo ayudar con algo más? 🤔`;
     } else if (lower === "2") {
-      // Estado de tus pedidos
       return `Estado de tus pedidos:<br>
       Para consultar el estado de tu pedido, por favor ingresa tu número de pedido y estaremos encantados de informarte. 📦🚚<br><br>¿Hay algo más en lo que pueda ayudarte? 😄`;
     } else if (lower === "3") {
-      // Políticas de devolución
       return `Políticas de devolución:<br>
       Aceptamos devoluciones dentro de los 30 días posteriores a la compra, siempre y cuando el producto no haya sido utilizado y esté en su empaque original. Si tienes alguna pregunta, ¡aquí estamos para ayudarte! 💼🔄<br><br>¿Te gustaría saber más? 😃`;
     } else if (lower === "4") {
-      // Horarios de atención
       return `Horarios de atención:<br>
       Nuestro horario de atención es de lunes a viernes, de 9 AM a 6 PM. ¡Te esperamos! ⏰📅<br><br>Si necesitas algo más, ¡estoy aquí para ayudarte! 😄`;
     } else {
@@ -577,6 +569,7 @@ if (contienePalabraGracias(lower)) {
       return "Por favor selecciona una opción válida: 1, 2, 3 o 4.";
     }
   }
+
   // Si no coincide con ninguna de las opciones predefinidas, llamamos a la IA
   return await getIAResponse(message);
 }
@@ -655,4 +648,7 @@ document.getElementById("chatbot-btn").addEventListener("click", () => {
 });
 
 
-})();
+
+})
+
+();

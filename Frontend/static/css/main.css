@@ -1983,89 +1983,103 @@ section,
   color: var(--accent-color);
 }
 
+/* Chatbot general */
 #chatbot-btn {
   position: fixed;
   bottom: 20px;
-  left: 20px; /* Se mueve el botón a la izquierda */
-  background-color: rgb(74, 102, 172); /* Color RGB para el fondo */
+  left: 20px;
+  background-color: #4a66ac;
   color: white;
   border-radius: 50%;
-  padding: 18px; /* Aumentamos el padding para hacerlo más grande */
+  padding: 18px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 60px; /* Aumentamos el tamaño del botón */
-  height: 60px; /* Aumentamos el tamaño del botón */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  width: 70px;
+  height: 70px;
   display: flex;
   justify-content: center;
-  align-items: center; /* Centrar el ícono dentro de la bolita */
+  align-items: center;
+  transition: 0.3s ease-in-out;
+}
+
+#chatbot-btn:hover {
+  transform: scale(1.1); /* Agranda el botón al pasar el mouse */
 }
 
 #chatbot-btn i {
-  font-size: 28px; /* Hacer el ícono un poco más grande */
+  font-size: 30px; 
 }
 
-/* Estilo para la ventana emergente del chatbot */
+/* Ventana del chatbot */
 #chatbot-window {
   position: fixed;
   bottom: 80px;
-  left: 20px; /* Se mantiene a la izquierda para alinearlo con el botón */
+  left: 20px;
   width: 400px;
   height: 600px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   display: none;
   z-index: 1000;
+  transition: transform 0.3s ease;
 }
 
-#chatbot-window iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 8px;
+#chatbot-window.show {
+  transform: translateY(0);
 }
-/*--------------------------------------------------------------
-# Starter Section Section
---------------------------------------------------------------*/
 
 #chat-container {
-  width: 400px;
-  height: 595px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  height: 100%;
+  font-family: "Arial", sans-serif;
 }
 
 #chat-header {
-  background-color: rgb(74, 102, 172); /* Color de fondo del encabezado */
+  background-color: #4a66ac;
   color: white;
-  padding: 16px;
-  font-weight: 700;
+  padding: 15px;
   text-align: center;
-  border-radius: 12px 12px 0 0;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 10px 10px 0 0;
+  position: relative;
+}
+
+#chatbot-close {
+  background-color: #333;
+  color: white;
   font-size: 18px;
-  letter-spacing: 1px;
-  user-select: none;
+  border: none;
+  padding: 5px 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: background-color 0.2s ease;
+}
+
+#chatbot-close:hover {
+  background-color: #555;
 }
 
 #chat-messages {
-  flex: 1; /* Esta propiedad asegura que ocupe el espacio disponible */
+  flex: 1;
   padding: 15px;
   overflow-y: auto;
-  background: #f7f9fc;
+  background-color: #f5f7f9;
+  border-bottom: 1px solid #ddd;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .message {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
   max-width: 80%;
 }
 
@@ -2074,39 +2088,37 @@ section,
   flex-direction: row-reverse;
 }
 
-.message.user .avatar {
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-}
-
-.message.bot .avatar {
+.message .avatar {
   border-radius: 50%;
   width: 36px;
   height: 36px;
 }
 
 .message .text {
-  padding: 10px 14px;
-  border-radius: 16px;
-  font-size: 15px;
-  line-height: 1.3;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  max-width: 100%;
+  padding: 12px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 80%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Estilo para mensajes del usuario */
 .message.user .text {
-  background-color: rgb(74, 102, 172); /* Fondo del mensaje del usuario */
+  background-color: #4a66ac;
   color: white;
-  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .message.bot .text {
-  background-color: #e2e8f0;
-  color: #2d3748;
-  border-bottom-left-radius: 4px;
+  background-color: #e6e9f1;
+  color: #333;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
+/* Contenedor de entrada de texto */
 #chat-input-container {
   display: flex;
   padding: 12px 15px;
@@ -2120,70 +2132,99 @@ section,
   padding: 10px 14px;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 20px;
+  border-radius: 25px;
   outline: none;
   transition: border-color 0.2s;
 }
 
 #chat-input:focus {
-  border-color: rgb(
-    74,
-    102,
-    172
-  ); /* Color de borde cuando el input está en foco */
-  box-shadow: 0 0 5px rgb(74, 102, 172);
+  border-color: #4a66ac;
+  box-shadow: 0 0 5px #4a66ac;
 }
 
 #chat-send {
-  background-color: rgb(74, 102, 172); /* Fondo del botón de enviar */
+  background-color: #4a66ac;
   color: white;
   border: none;
-  padding: 0 16px;
-  font-weight: 700;
-  border-radius: 20px;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.2s;
-  min-width: 60px;
+  min-width: 80px;
 }
 
 #chat-send:hover {
-  background-color: rgb(
-    74,
-    102,
-    172
-  ); /* Cambio de color al hacer hover sobre el botón */
+  background-color: #36519d;
 }
 
-#chatbot-header {
-  display: flex;
-  justify-content: space-between; /* Para separar el texto del botón */
-  align-items: center;
-  padding: 16px;
+/* Estilos para la ventana de mensajes */
+#chat-header, #chat-input-container {
+  border-radius: 10px;
+}
+
+#chat-header {
+  background-color: #4a66ac;
+  color: white;
   font-weight: 700;
-  text-align: center;
-  border-radius: 12px 12px 0 0;
   font-size: 18px;
-  letter-spacing: 1px;
-  user-select: none;
-  position: relative; /* Para permitir que el botón se posicione en relación con el contenedor */
+  text-align: center;
+  padding: 15px;
 }
 
-#chatbot-close {
-  background-color: black; /* Fondo negro */
-  border: none;
-  color: rgb(255, 255, 255); /* La X será verde */
-  font-size: 13px; /* Hacer la X más pequeña */
-  padding: 6px 12px; /* Hacer el botón más ancho, agregando más espacio */
+#chatbot-window {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Animaciones de entrada y salida */
+@keyframes slideIn {
+  from {
+    transform: translateY(200px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(200px);
+    opacity: 0;
+  }
+}
+
+#chatbot-window.show {
+  animation: slideIn 0.4s ease-out forwards;
+}
+
+#chatbot-window.hide {
+  animation: slideOut 0.4s ease-in forwards;
+}
+
+/* Estilos para los botones de respuesta */
+.btn-info {
+  background-color: #4a66ac;
+  color: white;
+  padding: 8px 15px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 50%; /* Hacer el fondo redondeado */
-  position: absolute; /* Posicionarlo de manera absoluta */
-  right: 3px; /* Moverlo más a la derecha */
-  top: 5px; /* Moverlo más arriba */
+  transition: background-color 0.2s;
 }
 
-#chatbot-close:hover {
-  background-color: #333; /* Cambia el fondo cuando pasas el mouse */
+.btn-info:hover {
+  background-color: #36519d;
 }
+
+
 
 .starter-section {
   /* Add your styles here */
@@ -2201,20 +2242,18 @@ section,
 /* Estilos para los contenedores de los productos */
 /* Estilos para los contenedores de los productos */
 .product-container {
-  border: 1px solid #ccc;               /* Borde gris claro */
-  margin-bottom: 10px;                   /* Menor espacio entre productos */
-  padding: 15px;                         /* Relleno más pequeño */
-  width: 220px;                          /* Ancho reducido para los productos */
-  display: flex;                         /* Usamos Flexbox para organizar imagen y texto */
-  flex-direction: column;                /* Apila la imagen y el texto de arriba hacia abajo */
-  justify-content: space-between;        /* Asegura que el botón esté al final */
-  background-color: #f9f9f9;             /* Fondo ligeramente gris */
-  border-radius: 8px;                    /* Bordes redondeados */
-  box-sizing: border-box;                /* Para asegurar que el padding no afecte el ancho */
-  transition: transform 0.3s ease;       /* Efecto de transición cuando se pasa el mouse */
-  text-align: left;                      /* Alineación del texto */
+  display: flex;
+  flex-direction: column; /* Coloca los elementos de arriba hacia abajo */
+  align-items: flex-start;
+  background-color: white;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 100%; /* Para evitar que el cuadro se salga de su contenedor */
+  gap: 10px; /* Espacio entre la imagen y el texto */
+  margin-left: 0; /* Alinea los cuadros más a la izquierda */
 }
-
 /* Efecto al pasar el mouse sobre el contenedor */
 .product-container:hover {
   transform: scale(1.05);                /* Aumenta ligeramente el tamaño */
@@ -2224,22 +2263,37 @@ section,
 /* Estilos para las imágenes de los productos */
 /* Estilos para las imágenes de los productos */
 .product-container img {
-  width: 80%;                           /* La imagen ocupa el 80% del ancho del contenedor */
-  height: 150px;                        /* Define una altura fija para la imagen */
-  object-fit: cover;                     /* Asegura que la imagen se recorte de manera adecuada sin distorsionarse */
-  border-radius: 5px;                    /* Bordes redondeados de la imagen */
-  margin-bottom: 10px;                   /* Menor espacio debajo de la imagen */
-  margin-left: 10%;                      /* Mueve la imagen 10% hacia la derecha */
+  width: 70px; /* Ajusta el tamaño de la imagen */
+  height: 70px;
+  object-fit: contain; /* Asegura que la imagen se ajuste dentro del contenedor sin distorsionarse */
+  margin-bottom: 10px; /* Espacio entre la imagen y el texto */
+  margin-left: 50px; /* Mueve la imagen hacia la derecha con 50px de distancia */
 }
-
 
 /* Estilos para el texto de los productos */
 .product-container .text {
-  flex: 1;                               /* El texto ocupa el espacio restante */
-  text-align: center;                    /* Centra el texto */
-  margin-bottom: 10px;                   /* Espacio entre el texto y el botón */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.4;
+  max-width: 270px; /* Asegura que el texto no ocupe más de un espacio razonable */
+  text-align: center; /* Centra el texto */
 }
-
+.product-container .text a {
+  background-color: #4a66ac;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
 .product-container strong {
   display: block;
   font-size: 1em;                        /* Tamaño de fuente más pequeño para el nombre del producto */
@@ -2271,7 +2325,9 @@ section,
   cursor: pointer;                       /* Cambia el cursor al pasar por encima */
   margin-top: 10px;                      /* Espacio por encima del botón */
 }
-
+.product-container .text a:hover {
+  background-color: #36519d;
+}
 /* Efecto al pasar el mouse sobre el botón */
 .product-container .btn-info:hover {
   background-color: #0056b3;             /* Fondo más oscuro al pasar el mouse */
