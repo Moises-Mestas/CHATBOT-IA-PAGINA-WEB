@@ -12,7 +12,7 @@ MySQL o MariaDB
 🚀 Instalación del Proyecto
 
 Clonar el Repositorio
-git clone https://github.com/jhosue-pstr/Infotel.git cd Infotel
+git clone https://github.com/Moises-Mestas/CHATBOT-IA-PAGINA-WEB.git cd CHATBOT-IA-PAGINA-WEB
 
 Importar la Base de Datos
 Importa el archivo .sql ubicado en la carpeta backend a tu gestor de base de datos (MySQL o MariaDB). 3. Crear un Entorno Virtual en Python
