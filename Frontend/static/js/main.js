@@ -365,6 +365,9 @@
   // Constantes del chatbot
   // Constantes del chatbot
  // Constantes del chatbot
+// Constantes del chatbot
+// Constantes del chatbot
+// Constantes del chatbot
 const input = document.getElementById("chat-input");
 const sendBtn = document.getElementById("chat-send");
 const messages = document.getElementById("chat-messages");
@@ -425,6 +428,7 @@ function contienePalabraMenu(texto) {
 }
 
 // Función para manejar la respuesta del usuario
+// Función para manejar la respuesta del usuario
 async function getResponse(message) {
   const lower = message.toLowerCase().trim();
 
@@ -482,25 +486,47 @@ async function getResponse(message) {
       estadoActual = "catalogo";
       const productos = await obtenerProductos();  // Llamamos a la API para obtener productos
       let mensaje = "Estos son los productos disponibles:<br>";
-      
-      // Muestra los productos obtenidos con su imagen
       productos.forEach((producto, index) => {
         mensaje += `
-          <div style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
-            <img src="${producto.imagen}" alt="${producto.nombre}" style="width: 100px; height: auto; float: left; margin-right: 10px;">
-            <strong>${producto.nombre}</strong><br>
-            Precio: S/ ${producto.precio}<br>
-            Stock: ${producto.stock} unidades<br>
-            <button class="btn btn-info" onclick="verDetalles(${producto.id})">Ver detalles</button>
+          <div class="product-container">
+            <img src="static/img/catalogo/compra2.png" alt="${producto.nombre}">
+            <div class="text">
+              <strong>${producto.nombre}</strong><br>
+              Precio: S/ ${producto.precio}<br>
+              Stock: ${producto.stock} unidades<br>
+              <a href="http://localhost:5001/catalogo" class="btn btn-info">Ver detalles</a>
+            </div>
           </div>
         `;
       });
-      
       mensaje += "Por favor responde con el número del producto que te interesa.";
       return mensaje;
     } else {
       esperandoSeleccionInicial = true; // No es opción válida, volvemos a preguntar
       return "Por favor selecciona una opción válida: 1, 2, 3, 4 o 5.";
+    }
+  }
+
+  // Respuestas para la opción 3: Consultar preguntas frecuentes
+  if (estadoActual === "faq") {
+    if (lower === "1") {
+      return `La respuesta a la pregunta "¿Cómo puedo importar o exportar?" es:<br> 
+        Para importar o exportar productos, por favor contacte con nuestro equipo de ventas para que te asesoren en el proceso. 😊<br>
+        ¡Un gusto ayudarte! ¿Tienes más dudas?<br>
+        <br>1. Ver promociones y descuentos<br>2. Conocer nuestras redes sociales y contacto<br>3. Consultar preguntas frecuentes<br>4. Soporte técnico básico<br>5. Ver catálogo de productos`;
+    } else if (lower === "2") {
+      return `La respuesta a la pregunta "¿Cuánto tardan los envíos?" es:<br>
+        El tiempo de entrega depende de la ubicación, pero generalmente los envíos tardan entre 5 y 10 días hábiles.<br>
+        ¡Un gusto ayudarte! ¿Tienes más dudas?<br>
+        <br>1. Ver promociones y descuentos<br>2. Conocer nuestras redes sociales y contacto<br>3. Consultar preguntas frecuentes<br>4. Soporte técnico básico<br>5. Ver catálogo de productos`;
+    } else if (lower === "3") {
+      return `La respuesta a la pregunta "¿Cuáles son los costos asociados?" es:<br>
+        Los costos asociados a nuestros productos varían dependiendo del tipo de producto y el destino del envío. Para más detalles, consulta con nuestro equipo de ventas.<br>
+        ¡Un gusto ayudarte! ¿Tienes más dudas?<br>
+        <br>1. Ver promociones y descuentos<br>2. Conocer nuestras redes sociales y contacto<br>3. Consultar preguntas frecuentes<br>4. Soporte técnico básico<br>5. Ver catálogo de productos`;
+    } else {
+      estadoActual = "faq";
+      return "Por favor selecciona una opción válida: 1, 2 o 3.";
     }
   }
 
@@ -523,6 +549,7 @@ async function getResponse(message) {
   return await getIAResponse(message);
 }
 
+
 // Función para obtener productos desde la base de datos
 async function obtenerProductos() {
   try {
@@ -531,6 +558,10 @@ async function obtenerProductos() {
       throw new Error('No se pudieron obtener los productos');
     }
     const productos = await response.json();
+    
+    // Verifica los datos recibidos
+    console.log(productos);  // Muestra los productos en la consola
+    
     return productos;
   } catch (error) {
     console.error('Error obteniendo productos:', error);
@@ -590,10 +621,6 @@ document.getElementById("chatbot-btn").addEventListener("click", () => {
     mensajeBienvenida();
   }
 });
-
-
-
-
 
 
 })();

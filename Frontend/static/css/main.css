@@ -2188,3 +2188,91 @@ section,
 .starter-section {
   /* Add your styles here */
 }
+
+
+
+
+
+
+
+/* Estilos para los contenedores de los productos */
+/* Estilos para los contenedores de los productos */
+/* Estilos para los contenedores de los productos */
+/* Estilos para los contenedores de los productos */
+/* Estilos para los contenedores de los productos */
+.product-container {
+  border: 1px solid #ccc;               /* Borde gris claro */
+  margin-bottom: 10px;                   /* Menor espacio entre productos */
+  padding: 15px;                         /* Relleno más pequeño */
+  width: 220px;                          /* Ancho reducido para los productos */
+  display: flex;                         /* Usamos Flexbox para organizar imagen y texto */
+  flex-direction: column;                /* Apila la imagen y el texto de arriba hacia abajo */
+  justify-content: space-between;        /* Asegura que el botón esté al final */
+  background-color: #f9f9f9;             /* Fondo ligeramente gris */
+  border-radius: 8px;                    /* Bordes redondeados */
+  box-sizing: border-box;                /* Para asegurar que el padding no afecte el ancho */
+  transition: transform 0.3s ease;       /* Efecto de transición cuando se pasa el mouse */
+  text-align: left;                      /* Alineación del texto */
+}
+
+/* Efecto al pasar el mouse sobre el contenedor */
+.product-container:hover {
+  transform: scale(1.05);                /* Aumenta ligeramente el tamaño */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil al pasar el mouse */
+}
+
+/* Estilos para las imágenes de los productos */
+/* Estilos para las imágenes de los productos */
+.product-container img {
+  width: 80%;                           /* La imagen ocupa el 80% del ancho del contenedor */
+  height: 150px;                        /* Define una altura fija para la imagen */
+  object-fit: cover;                     /* Asegura que la imagen se recorte de manera adecuada sin distorsionarse */
+  border-radius: 5px;                    /* Bordes redondeados de la imagen */
+  margin-bottom: 10px;                   /* Menor espacio debajo de la imagen */
+  margin-left: 10%;                      /* Mueve la imagen 10% hacia la derecha */
+}
+
+
+/* Estilos para el texto de los productos */
+.product-container .text {
+  flex: 1;                               /* El texto ocupa el espacio restante */
+  text-align: center;                    /* Centra el texto */
+  margin-bottom: 10px;                   /* Espacio entre el texto y el botón */
+}
+
+.product-container strong {
+  display: block;
+  font-size: 1em;                        /* Tamaño de fuente más pequeño para el nombre del producto */
+  margin-bottom: 5px;                    /* Espacio más pequeño debajo del nombre del producto */
+}
+
+/* Estilos para el precio y stock del producto */
+.product-container .precio {
+  font-size: 0.9em;                      /* Un poco más pequeño el tamaño de fuente del precio */
+  color: #333;                           /* Color de texto oscuro */
+  margin-bottom: 5px;                    /* Menor espacio entre precio y stock */
+}
+
+.product-container .stock {
+  font-size: 0.9em;                      /* Un poco más pequeño el tamaño de fuente del stock */
+  color: #777;                           /* Un color más suave para el stock */
+  margin-bottom: 10px;                   /* Espacio debajo del stock */
+}
+
+/* Estilos para el botón de detalles */
+.product-container .btn-info {
+  padding: 5px 10px;                     /* Relleno del botón más pequeño */
+  background-color: #007bff;             /* Fondo azul */
+  color: white;                          /* Texto blanco */
+  border: none;                          /* Elimina el borde */
+  border-radius: 5px;                    /* Bordes redondeados en el botón */
+  text-decoration: none;                 /* Elimina subrayado */
+  font-size: 0.9em;                      /* Tamaño de fuente adecuado para el botón */
+  cursor: pointer;                       /* Cambia el cursor al pasar por encima */
+  margin-top: 10px;                      /* Espacio por encima del botón */
+}
+
+/* Efecto al pasar el mouse sobre el botón */
+.product-container .btn-info:hover {
+  background-color: #0056b3;             /* Fondo más oscuro al pasar el mouse */
+}
